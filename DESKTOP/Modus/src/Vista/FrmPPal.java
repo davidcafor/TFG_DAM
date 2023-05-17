@@ -5,6 +5,8 @@
 package Vista;
 
 import Controlador.Conexion;
+import Controlador.ControladorProducto;
+import Controlador.ControladorTienda;
 import Modelo.Inventario;
 import Modelo.Producto;
 import Modelo.Tienda;
@@ -19,6 +21,7 @@ import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.Properties;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,17 +35,13 @@ public class FrmPPal extends javax.swing.JFrame {
      */
     public FrmPPal() {
         initComponents();
-        
+
         //ASIGNO MODELOTABLA A LA TABLA DE LIBROS
         modeloTabla = (DefaultTableModel) tblPrincipal.getModel();
-
-       //CONECTAR BASE DATOS
-       conectarBD();
-
+        //CONECTAR BASE DATOS
+        conectarBD();
         //CARGAR COMBO TIENDAS
-        cargarComboTiendas(cmb_tiendas);
-        
-        
+        ControladorTienda.cargarComboTiendas(cmb_tiendas);
     }
 
     /**
@@ -156,9 +155,19 @@ public class FrmPPal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("Baja");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem7.setText("Modificacion");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
@@ -227,16 +236,21 @@ public class FrmPPal extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_tiendasActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        
+        // ALTA TIENDA
+        AltaTienda ventanaAltaTienda = new AltaTienda(this, false);
+        ventanaAltaTienda.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
+        // BAJA TIENDA
+        BajaTienda ventanaBajaTienda = new BajaTienda(this, false);
+        ventanaBajaTienda.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+        // MODIFICAR TIENDA
+        ModificarTienda ventanaModificarTienda = new ModificarTienda(this, false);
+        ventanaModificarTienda.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -248,6 +262,18 @@ public class FrmPPal extends javax.swing.JFrame {
         AltaProducto ventanaAltaProducto = new AltaProducto(this, false);
         ventanaAltaProducto.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // BAJA PRODUCTO
+        BajaProducto ventanaBajaProducto = new BajaProducto(this, false);
+        ventanaBajaProducto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // MODIFICAR PRODUCTO
+        ModificarProducto ventanaModificarProducto = new ModificarProducto(this, false);
+        ventanaModificarProducto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,16 +309,17 @@ public class FrmPPal extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void conectarBD(){
-        
+
+    public void conectarBD() {
+
         cargarConfiguracionConexionBD();
-        
-         try {
+
+        try {
             Conexion.conectarBD(urlBD, puertoBD, usuarioBD, nombreBD, claveBD);
             if (Conexion.getCon() != null) {
                 System.out.println("Conexión establecida");
             } else {
+                JOptionPane.showMessageDialog(this, "Error de conexión. Asegúrate de tener bien configurada la conexion.");
                 System.out.println("Fallo en la conexion");
             }
         } catch (Exception e) {
@@ -322,7 +349,7 @@ public class FrmPPal extends javax.swing.JFrame {
             usuarioBD = archivoProperties.getProperty("USUARIO");
             claveBD = archivoProperties.getProperty("CLAVE");
             nombreBD = archivoProperties.getProperty("BD");
-            
+
             System.out.println(urlBD + puertoBD + usuarioBD);
 
         } catch (IOException e) {
@@ -332,35 +359,6 @@ public class FrmPPal extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * METODO PARA CARGAR EL COMBO PRINCIPAL CON LAS TIENDAS
-     *
-     * @param cmbTiendas
-     */
-    public static void cargarComboTiendas(JComboBox cmbTiendas) {
-
-        Statement sentencia;
-
-        try {
-
-            cmbTiendas.removeAllItems();
-
-            sentencia = Conexion.getCon().createStatement();
-            String consulta = "SELECT * FROM tiendas";
-            ResultSet rs = sentencia.executeQuery(consulta);
-            while (rs.next()) {
-                Tienda t = new Tienda(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-                cmbTiendas.addItem(t);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error cargando combo tiendas: " + e);
-        } catch (Exception e) {
-            System.out.println("Error generico cargando combo tiendas: " + e);
-        }
-
-    }
-    
     //Metodo para cargar la tabla con los datos de una consulta a la BD
     private DefaultTableModel modeloTabla = new DefaultTableModel();
 
@@ -375,20 +373,20 @@ public class FrmPPal extends javax.swing.JFrame {
                 modeloTabla.setRowCount(0);
 
                 sentencia = Conexion.getCon().createStatement();
-                String consulta = "SELECT * FROM inventario WHERE id_tienda = " + ((Tienda)cmb_tiendas.getSelectedItem()).getId();
+                String consulta = "SELECT * FROM inventario WHERE id_tienda = " + ((Tienda) cmb_tiendas.getSelectedItem()).getId();
                 ResultSet rs = sentencia.executeQuery(consulta);
                 while (rs.next()) {
                     //CONSTRUYO OBJETOS PARA GUARDAR COMPLETOS
                     Date ult_act = rs.getDate(5);
-                    Producto p = cargarProductoID(rs.getInt(2));
-                    Tienda t = cargarTiendaID(rs.getInt(3));
+                    Producto p = ControladorProducto.cargarProductoID(rs.getInt(2));
+                    Tienda t = ControladorTienda.cargarTiendaID(rs.getInt(3));
                     Inventario i = new Inventario(rs.getInt(1), p, t, rs.getInt(4), ult_act);
-                    
+
                     //FORMATEO PRECIO A 2 DECIMALES
                     BigDecimal precio = p.getPrecio();
                     DecimalFormat formatoDecimal = new DecimalFormat("#0.00");
                     String precioFormateado = formatoDecimal.format(precio);
-            
+
                     //AÑADO A TABLA
                     int numFilas = modeloTabla.getRowCount();
                     modeloTabla.setRowCount(numFilas + 1);
@@ -407,55 +405,6 @@ public class FrmPPal extends javax.swing.JFrame {
         }
 
     }
-    
-    public Producto cargarProductoID(int id){
-        
-        Statement sentencia;
-        Producto p = null;
-        
-        try {
-                sentencia = Conexion.getCon().createStatement();
-                String consulta = "SELECT * FROM productos WHERE id = " + id;
-                ResultSet rs = sentencia.executeQuery(consulta);
-                while (rs.next()) {
-                    double valorDouble = rs.getDouble(4);
-                    BigDecimal valorBigDecimal = new BigDecimal(valorDouble);
-                    
-                    p = new Producto(rs.getInt(1), rs.getString(2), rs.getString(3), valorBigDecimal, rs.getString(5));
-                }
-
-            } catch (SQLException e) {
-                System.out.println("Error Cargando Producto por ID: " + e);
-            } catch (Exception e) {
-                System.out.println("Error Generico Cargando Producto por ID: " + e);
-            }
-        
-        return p;
-        
-    }
-    
-    public Tienda cargarTiendaID(int id){
-        
-        Statement sentencia;
-        Tienda t = null;
-        
-        try {
-                sentencia = Conexion.getCon().createStatement();
-                String consulta = "SELECT * FROM tiendas WHERE id = " + id;
-                ResultSet rs = sentencia.executeQuery(consulta);
-                while (rs.next()) {                    
-                    t = new Tienda(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-                }
-
-            } catch (SQLException e) {
-                System.out.println("Error Cargando Producto por ID: " + e);
-            } catch (Exception e) {
-                System.out.println("Error Generico Cargando Producto por ID: " + e);
-            }
-        
-        return t;
-        
-    }
 
     //variables para leer archivo configuracion
     private String urlBD;
@@ -463,6 +412,10 @@ public class FrmPPal extends javax.swing.JFrame {
     private String usuarioBD;
     private String claveBD;
     private String nombreBD;
+    
+    public JComboBox getComboTiendas() {
+        return cmb_tiendas;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Tienda> cmb_tiendas;

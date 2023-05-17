@@ -26,9 +26,9 @@ public class Conexion {
             return con;
             
         } catch (SQLException ex) { 
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error en conexion SQL");
         } catch (Exception e) {
-            System.out.println("Error en conexion: " + e);
+            System.out.println("Error genérico en conexion");
         }
         return null;
     }
