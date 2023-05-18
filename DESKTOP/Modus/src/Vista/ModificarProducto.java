@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -238,8 +240,16 @@ public class ModificarProducto extends javax.swing.JDialog {
             txtNombre.setText(p.getNombre());
             txtDescripcion.setText(p.getDescripcion());
             txtPrecio.setText(String.valueOf(p.getPrecio()));
-            //String nombreArchivo, String rutaDescarga, String ip, int puertoFTP, String usuarioFTP, String claveFTP, String carpetaFTP, JLabel lblImagen
-            ControladorProducto.descargarImgFTP(p.getImagen(), ".src/Descargas/", ip, puertoFTP, usuarioFTP, claveFTP, ftpFolder, lblImagen);
+            try {
+                if(p.getImagen() != null){
+                    ControladorProducto.descargarImgFTP(ip, usuarioFTP, claveFTP, p.getImagen(), lblImagen);
+                }else{
+                    lblImagen.setIcon(null);
+                    System.out.println("Este producto no tiene imagen");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(ModificarProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         }
 

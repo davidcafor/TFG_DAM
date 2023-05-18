@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -99,31 +100,31 @@ public class ControladorProducto {
             return sentencia.executeUpdate();
         }
     }
-    
+
     public static void actualizarProducto(int idProducto, String nombre, String descripcion, double precio, String imagen) {
-    // Consulta SQL para la actualización de datos
-    String consulta = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, imagen = ? WHERE id = ?";
+        // Consulta SQL para la actualización de datos
+        String consulta = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, imagen = ? WHERE id = ?";
 
-    try (PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
-        sentencia.setString(1, nombre);
-        sentencia.setString(2, descripcion);
-        sentencia.setDouble(3, precio);
-        sentencia.setString(4, imagen);
-        sentencia.setInt(5, idProducto);
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+            sentencia.setString(1, nombre);
+            sentencia.setString(2, descripcion);
+            sentencia.setDouble(3, precio);
+            sentencia.setString(4, imagen);
+            sentencia.setInt(5, idProducto);
 
-        int filasActualizadas = sentencia.executeUpdate();
+            int filasActualizadas = sentencia.executeUpdate();
 
-        if (filasActualizadas > 0) {
-            JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
-        } else {
-            JOptionPane.showMessageDialog(null, "No se encontró el producto con ID: " + idProducto);
+            if (filasActualizadas > 0) {
+                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontró el producto con ID: " + idProducto);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al actualizar producto: " + ex);
+        } catch (Exception e) {
+            System.out.println("Error genérico al actualizar un producto: " + e);
         }
-    } catch (SQLException ex) {
-        System.out.println("Error SQL al actualizar producto: " + ex);
-    } catch (Exception e) {
-        System.out.println("Error genérico al actualizar un producto: " + e);
     }
-}
 
     /**
      * METODO PARA SUBIR LA IMAGEN AL FTP
@@ -193,31 +194,36 @@ public class ControladorProducto {
      * @param carpetaFTP
      * @param lblImagen
      */
-    public static void descargarImgFTP(String nombreArchivo, String rutaDescarga, String ip, int puertoFTP, String usuarioFTP, String claveFTP, String carpetaFTP, JLabel lblImagen) {
+    /*public static void descargarImgFTP(String nombreArchivo, String rutaDescarga, String ip, int puertoFTP, String usuarioFTP, String claveFTP, String carpetaFTP, JLabel lblImagen) throws FileNotFoundException, IOException {
+
+        FTPClient ftpClient = new FTPClient();
+        ftpClient.connect(ip, puertoFTP);
+        ftpClient.login(usuarioFTP, claveFTP);
+        ftpClient.enterLocalPassiveMode();
+        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        String rutaArchivoRemoto = "/imagesApp/bermuda_cargo_pespuntes.jpg";
+        String rutaArchivoLocal = "Descargas";
+        System.out.println("Conectando a FTP: " + ip + puertoFTP + rutaArchivoRemoto);
+        File archivoDescargado = new File(rutaArchivoLocal);
+        //OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(archivoDescargado));
+        
 
         Thread ftpThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                FTPClient ftpClient = new FTPClient();
+
                 try {
-                    ftpClient.connect(ip, puertoFTP);
-                    ftpClient.login(usuarioFTP, claveFTP);
-                    ftpClient.enterLocalPassiveMode();
-                    ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+                    FileOutputStream fos = new FileOutputStream(archivoDescargado);
+                    boolean descargaExitosa = ftpClient.retrieveFile(rutaArchivoRemoto, fos);
+                    fos.close();
+                    //boolean descargaExitosa = ftpClient.retrieveFile(rutaArchivoRemoto, outputStream);
+                    //outputStream.close();
 
-                    String rutaArchivoRemoto = "imagesApp/bermuda_cargo_pespuntes.jpg";
-                    String rutaArchivoLocal = "Descargas/bermuda_cargo_pespuntes.jpg";
-
-                    File archivoDescargado = new File(rutaArchivoLocal);
-                    OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(archivoDescargado));
-                    boolean descargaExitosa = ftpClient.retrieveFile(rutaArchivoRemoto, outputStream);
-                    outputStream.close();
-                    
                     if (descargaExitosa) {
                         System.out.println("El archivo se ha descargado correctamente");
 
                         // Mostrar la imagen en un JLabel
-                        mostrarImagenEnJLabel(rutaArchivoLocal, lblImagen);
+                        //mostrarImagenEnJLabel(rutaArchivoLocal, lblImagen);
                     } else {
                         System.out.println("No se pudo descargar el archivo");
                     }
@@ -237,6 +243,43 @@ public class ControladorProducto {
             }
         });
         ftpThread.start();
+    }*/
+    
+    public static void descargarImgFTP(String ip, String usuarioFTP, String claveFTP, String rutaImagenFTP, JLabel lblImagen) throws IOException{
+        FTPClient ftpClient = new FTPClient();
+        
+        String imgName = rutaImagenFTP.substring("/imagesApp/".length());
+        String rutaDescarga = "./src/Descargas/" + imgName;
+        
+        String servFTP = ip;
+        ftpClient.connect(servFTP);
+        ftpClient.enterLocalPassiveMode();
+        ftpClient.login(usuarioFTP, claveFTP);
+        //ftpClient.changeWorkingDirectory("Descargas");
+        ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        FileOutputStream fos = new FileOutputStream("./src/Descargas/" + imgName);
+        Runnable run = () -> {
+            try{
+                boolean descargaOK = ftpClient.retrieveFile(rutaImagenFTP, fos);
+                
+                if(descargaOK){
+                    System.out.println("Imagen descargada correctamente del FTP");
+                } else {
+                    System.out.println("Error bajando imagen del FTP");
+                }
+                
+            } catch (IOException ex) {
+                System.out.println("Error retrieving file FTP");
+            } 
+            
+            //mostrar imagen en label
+            ImageIcon preview = new ImageIcon(rutaDescarga);
+            lblImagen.setIcon(new ImageIcon(preview.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH)));
+            
+        };
+        ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        Thread hilo = new Thread(run);
+        hilo.start();
     }
 
     /**
