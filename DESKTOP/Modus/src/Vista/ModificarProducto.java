@@ -57,6 +57,7 @@ public class ModificarProducto extends javax.swing.JDialog {
         txtDescripcion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Modificar Producto");
 
         cmbProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +154,8 @@ public class ModificarProducto extends javax.swing.JDialog {
                 .addGap(58, 58, 58))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(687, 485));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed

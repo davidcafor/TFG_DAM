@@ -9,15 +9,34 @@ class Menu extends StatelessWidget {
       child: ListView(
         children: [
           ListTile(
-            title: Text('Opción 1'),
+            leading: Icon(Icons.home),
+            title: Text('Inicio'),
             onTap: () {
-              // Acción al seleccionar la opción 1
+              Navigator.pushNamed(context, 'home');
             },
           ),
+          Divider(), // Línea separadora
           ListTile(
-            title: Text('Opción 2'),
+            leading: Icon(Icons.shopping_cart),
+            title: Text('Lista Productos'),
+            onTap: () {
+              Navigator.pushNamed(context, 'listado');
+            },
+          ),
+          Divider(), // Línea separadora
+          ListTile(
+            leading: Icon(Icons.search),
+            title: Text('Búsqueda Productos'),
             onTap: () {
               // Acción al seleccionar la opción 2
+            },
+          ),
+          Divider(), // Línea separadora
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Ajustes'),
+            onTap: () {
+              Navigator.pushNamed(context, 'ajustes');
             },
           ),
         ],

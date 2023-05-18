@@ -1,70 +1,60 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:modus/models/producto.dart';
-import 'package:modus/providers/producto_provider.dart';
 import 'package:modus/widgets/menu.dart';
-import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
-
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
-    final provider = Provider.of<ProductoProvider>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Modus'),
       ),
       drawer: Menu(),
-      body: FutureBuilder(
-        future: provider.listaProductos(),
-          builder: (BuildContext context, AsyncSnapshot<List<ListElement>> snapshot) {
-            if(snapshot.hasData){
-              List<ListElement> productos = snapshot.data!;
-              return ListView.separated(
-                itemCount: productos.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    ListElement producto = productos[index];
-
-                    return GestureDetector(
-                      /*
-                      onTap: () => Navigator.of(context)
-                        .pushNamed('details', arguments: miProvider.listaBuscados[index]),
-                       */
-                      child: ListTile(
-                          leading: producto.imagen != null
-                                ? Image.network('http://192.168.68.57' + producto.imagen!, fit: BoxFit.cover)
-                                : Image.asset('assets/images/default.png', fit: BoxFit.cover),
-                          title: Text(producto.nombre),
-                          subtitle: Text(producto.descripcion),
-                          trailing: Text('Precio: ${producto.precio}'),
-                          dense: true,
-                          visualDensity: VisualDensity(vertical: 4),
-
-                      ),
-                    );
-                  }, separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      thickness: 1,
-                    );
-              },
-              );
-            }else{
-              return Center(child: CircularProgressIndicator());
-            };
-          },),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            // Sección blanca
+            Positioned.fill(
+              child: Container(
+                color: Colors.white,
+              ),
+            ),
+            // Sección azul
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: MediaQuery.of(context).size.width * (2/3),
+              right: 0,
+              child: Container(
+                color: Color.fromRGBO(68, 195, 235, 0.8),
+              ),
+            ),
+            // Logo en el centro
+            Positioned(
+              top: 30,
+              left: 50,
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 150,
+                height: 150,
+              ),
+            ),
+            // Imagen de persona en la esquina inferior derecha
+            Positioned(
+              bottom: -10,
+              right: -180,
+              child: Image.asset(
+                'assets/images/person.png',
+                width: 600,
+                height: 600,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

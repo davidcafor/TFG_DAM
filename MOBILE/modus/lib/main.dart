@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:modus/pages/ajustes.dart';
+import 'package:modus/pages/detalle.dart';
 import 'package:modus/pages/home.dart';
+import 'package:modus/pages/listado.dart';
+import 'package:modus/providers/inventario_provider.dart';
 import 'package:modus/providers/producto_provider.dart';
+import 'package:modus/providers/tienda_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
@@ -17,6 +22,8 @@ class MyState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
+        ChangeNotifierProvider(create: (_) => TiendaProvider()),
+        ChangeNotifierProvider(create: (_) => InventarioProvider())
       ],
       child: MyApp(),
     );
@@ -35,7 +42,9 @@ class MyApp extends StatelessWidget {
       routes: {
         //'presentation': (context) => Presentation(),
         'home': (context) => Home(),
-        //'details': (context) => Detail()
+        'listado' : (context) => Listado(),
+        'ajustes' : (context) => Ajustes(),
+        'detalle': (context) => Detalle()
       },
       initialRoute: 'home'
     );
