@@ -31,13 +31,13 @@ class _ListadoState extends State<Listado> {
       drawer: Menu(),
       body: FutureBuilder(
         future: provider.listaProductos(),
-          builder: (BuildContext context, AsyncSnapshot<List<ListElement>> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<List<Producto>> snapshot) {
             if(snapshot.hasData){
-              List<ListElement> productos = snapshot.data!;
+              List<Producto> productos = snapshot.data!;
               return ListView.separated(
                 itemCount: productos.length,
                   itemBuilder: (BuildContext context, int index) {
-                    ListElement producto = productos[index];
+                    Producto producto = productos[index];
 
                     return GestureDetector(
 

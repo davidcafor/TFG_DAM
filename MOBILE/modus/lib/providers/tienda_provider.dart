@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../models/tienda.dart';
+import '../models/tienda_response.dart';
 
 class TiendaProvider with ChangeNotifier {
 
@@ -17,7 +18,7 @@ class TiendaProvider with ChangeNotifier {
     port = prefs.getString('port') ?? "";
   }
 
-  Future<List<ListTiendas>> listaTiendas() async {
+  Future<List<Tienda>> listaTiendas() async {
 
     await initializeSettings();
     var url = Uri.parse('http://$ip:$port/api/v1/db/data/noco/p_96xp5wgyv3d0fj/Tiendas/views/Tiendas');
@@ -26,12 +27,12 @@ class TiendaProvider with ChangeNotifier {
     };
     var response = await http.get(url, headers: headers);
 
-    List<ListTiendas> listaTiendas = Tienda.fromJson(jsonDecode(response.body)).list;
+    List<Tienda> listaTiendas = TiendaResponse.fromJson(jsonDecode(response.body)).list;
 
     return listaTiendas;
   }
 
-  Future<List<ListTiendas>> listaTiendasByProducto({required int idProducto}) async {
+  Future<List<Tienda>> listaTiendasByProducto({required int idProducto}) async {
 
     await initializeSettings();
     var url = Uri.parse('http://$ip:$port/api/v1/db/data/noco/p_96xp5wgyv3d0fj/Tiendas/views/Tiendas?where=(IdProducto,eq,$idProducto)');
@@ -40,7 +41,7 @@ class TiendaProvider with ChangeNotifier {
     };
     var response = await http.get(url, headers: headers);
 
-    List<ListTiendas> listaTiendasByProducto = Tienda.fromJson(jsonDecode(response.body)).list;
+    List<Tienda> listaTiendasByProducto = TiendaResponse.fromJson(jsonDecode(response.body)).list;
 
     return listaTiendasByProducto;
   }

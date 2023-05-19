@@ -5,7 +5,7 @@ import '../models/producto.dart';
 
 class ElementoLista extends StatelessWidget {
 
-  final ListElement producto;
+  final Producto producto;
 
   ElementoLista({Key? key, required this.producto, }) : super(key: key);
 

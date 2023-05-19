@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:modus/models/inventario.dart';
-import 'package:modus/models/tienda.dart';
-import 'package:modus/providers/tienda_provider.dart';
+import '../models/inventario_response.dart';
 import 'package:provider/provider.dart';
 
+import '../models/inventario.dart';
 import '../models/producto.dart';
 import '../providers/inventario_provider.dart';
 import '../providers/producto_provider.dart';
@@ -18,10 +17,10 @@ class Detalle extends StatefulWidget {
 class _DetalleState extends State<Detalle> {
   @override
   Widget build(BuildContext context) {
+    Producto producto = ModalRoute.of(context)!.settings.arguments as Producto;
 
-    ListElement producto = ModalRoute.of(context)!.settings.arguments as ListElement;
-
-    final providerInventario = Provider.of<InventarioProvider>(context, listen: false);
+    final providerInventario =
+        Provider.of<InventarioProvider>(context, listen: false);
     final provider = Provider.of<ProductoProvider>(context, listen: false);
 
     return Scaffold(
@@ -36,13 +35,13 @@ class _DetalleState extends State<Detalle> {
               color: Colors.grey,
               child: producto.imagen != null
                   ? Image.network(
-                'http://192.168.68.57' + producto.imagen!,
-                fit: BoxFit.cover,
-              )
+                      'http://192.168.68.57' + producto.imagen!,
+                      fit: BoxFit.cover,
+                    )
                   : Image.asset(
-                'assets/images/default.png',
-                fit: BoxFit.cover,
-              ),
+                      'assets/images/default.png',
+                      fit: BoxFit.cover,
+                    ),
             ),
           ),
           Expanded(
@@ -70,33 +69,54 @@ class _DetalleState extends State<Detalle> {
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16),
-                  /*Expanded(
+                  Expanded(
                     child: FutureBuilder(
-                      //future: providerInventario.listaInventarioByProducto(idProducto: producto.id),
                       future: providerInventario.listaInventario(),
-                      builder: (BuildContext context, AsyncSnapshot<List<ListInventario>> snapshot) {
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Inventario>> snapshot) {
                         if (snapshot.hasData) {
-                          List<ListInventario> inventarioList = snapshot.data!;
+                          /*final inventarioResponse = snapshot.data as InventarioResponse;
+                          final tiendasFiltradas = inventarioResponse?.list
+                              .where((inventario) => inventario.productos.id == producto.id)
+                              .map((inventario) => inventario.tiendas)
+                              .toList();
+
+                          final listaInventario = snapshot.data!;
+                          final tiendasFiltradas = listaInventario
+                              .where((inventario) => inventario.productos.id == producto.id)
+                              .map((inventario) => inventario.tiendas)
+                              .toList();*/
+
+                          List<Inventario> inventarioList = snapshot.data!;
+                          List<Tiendas> tiendasFiltradas = inventarioList
+                              .where((inventario) =>
+                                  inventario.productos.id == producto.id)
+                              .map((inventario) => inventario.tiendas)
+                              .toList();
+
+
+                          tiendasFiltradas.sort((a, b) => a.nombre.compareTo(b.nombre));
+
+
                           return ListView.separated(
-                            itemCount: inventarioList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              ListInventario inventario = inventarioList[index];
-
-                              ListElement producto = inventario.productos as ListElement;
-                              ListElement productoActual = provider.listaProductosByID(idProducto: producto.id) as ListElement;
-
-                              if(producto == productoActual){
-                                return ListTile(
-                                  title: Text(inventario.id.toString()),
-                                  //subtitle: Text(tienda.direccion),
-                                );
-                              }else{
-                                return Container();
-                              }
-
+                            itemCount: tiendasFiltradas.length,
+                            itemBuilder: (context, index) {
+                              final tienda = tiendasFiltradas[index];
+                              final inv = inventarioList[index];
+                              return ListTile(
+                                  title: Text(tienda.nombre),
+                              subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              Text('Stock: ${inv.cantidad}'),
+                              Text('Última modificación: ${inv.ultimaActualizacion.toString()}'),
+                              ],
+                              ),
+                              );
 
                             },
-                            separatorBuilder: (BuildContext context, int index) {
+                            separatorBuilder:
+                                (BuildContext context, int index) {
                               return Divider(
                                 thickness: 1,
                               );
@@ -107,7 +127,7 @@ class _DetalleState extends State<Detalle> {
                         }
                       },
                     ),
-                  ),*/
+                  ),
                 ],
               ),
             ),
