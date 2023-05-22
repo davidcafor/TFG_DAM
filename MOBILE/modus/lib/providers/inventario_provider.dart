@@ -28,12 +28,6 @@ class InventarioProvider with ChangeNotifier {
     };
     var response = await http.get(url, headers: headers);
 
-    //print(response.body);
-
-    //List<Inventario> listaInventario = InventarioResponse.fromJson(jsonDecode(response.body)).list;
-    /*List<Inventario> listaInventario = List<Inventario>.from(jsonDecode(response.body).map((x) => Inventario.fromJson(x)));
-    print(listaInventario);
-*/
     var jsonData = jsonDecode(response.body);
     InventarioResponse inventarioResponse = InventarioResponse.fromJson(jsonData);
     List<Inventario> listaInventario = inventarioResponse.list;

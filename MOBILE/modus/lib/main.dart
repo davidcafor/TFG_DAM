@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modus/pages/ajustes.dart';
+import 'package:modus/pages/busqueda.dart';
 import 'package:modus/pages/detalle.dart';
 import 'package:modus/pages/home.dart';
 import 'package:modus/pages/listado.dart';
@@ -23,7 +24,7 @@ class MyState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TiendaProvider()),
-        ChangeNotifierProvider(create: (_) => InventarioProvider())
+        ChangeNotifierProvider(create: (_) => InventarioProvider()),
       ],
       child: MyApp(),
     );
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget {
         'home': (context) => Home(),
         'listado' : (context) => Listado(),
         'ajustes' : (context) => Ajustes(),
-        'detalle': (context) => Detalle()
+        'detalle': (context) => Detalle(),
+        'busqueda' : (context) => Busqueda()
       },
       initialRoute: 'home'
     );

@@ -28,7 +28,7 @@ class Menu extends StatelessWidget {
             leading: Icon(Icons.search),
             title: Text('Búsqueda Productos'),
             onTap: () {
-              // Acción al seleccionar la opción 2
+              Navigator.pushNamed(context, 'busqueda');
             },
           ),
           Divider(), // Línea separadora

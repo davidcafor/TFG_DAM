@@ -75,18 +75,8 @@ class _DetalleState extends State<Detalle> {
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Inventario>> snapshot) {
                         if (snapshot.hasData) {
-                          /*final inventarioResponse = snapshot.data as InventarioResponse;
-                          final tiendasFiltradas = inventarioResponse?.list
-                              .where((inventario) => inventario.productos.id == producto.id)
-                              .map((inventario) => inventario.tiendas)
-                              .toList();
 
-                          final listaInventario = snapshot.data!;
-                          final tiendasFiltradas = listaInventario
-                              .where((inventario) => inventario.productos.id == producto.id)
-                              .map((inventario) => inventario.tiendas)
-                              .toList();*/
-
+                          //creo objetos para filtrar consulta nocodb
                           List<Inventario> inventarioList = snapshot.data!;
                           List<Tiendas> tiendasFiltradas = inventarioList
                               .where((inventario) =>
@@ -95,8 +85,8 @@ class _DetalleState extends State<Detalle> {
                               .toList();
 
 
+                          //ordenar tiendas alfabeticamente
                           tiendasFiltradas.sort((a, b) => a.nombre.compareTo(b.nombre));
-
 
                           return ListView.separated(
                             itemCount: tiendasFiltradas.length,

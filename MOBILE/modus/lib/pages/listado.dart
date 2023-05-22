@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 class Listado extends StatefulWidget {
   const Listado({Key? key}) : super(key: key);
 
-
   @override
   State<Listado> createState() => _ListadoState();
 }
@@ -29,7 +28,7 @@ class _ListadoState extends State<Listado> {
         title: Text('Listado Productos'),
       ),
       drawer: Menu(),
-      body: FutureBuilder(
+      body: FutureBuilder<List<Producto>>(
         future: provider.listaProductos(),
           builder: (BuildContext context, AsyncSnapshot<List<Producto>> snapshot) {
             if(snapshot.hasData){

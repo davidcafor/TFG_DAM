@@ -45,4 +45,22 @@ class ProductoProvider with ChangeNotifier {
 
     return listaProductosByID;
   }
+
+  Future<List<Producto>> listaProductosQuery(String query) async {
+    await initializeSettings();
+
+    String encodedQuery = Uri.encodeComponent('%$query%'); //para que no me pille %CA en camiseta
+
+    var url = Uri.parse('http://$ip:$port/api/v1/db/data/noco/p_96xp5wgyv3d0fj/Productos/views/Productos?where=(Nombre,like,$encodedQuery)');
+    var headers = {
+      'xc-token' : apiToken
+    };
+    var response = await http.get(url, headers: headers);
+
+    print(url);
+
+    List<Producto> listaProductosQuery = ProductoResponse.fromJson(jsonDecode(response.body)).list;
+
+    return listaProductosQuery;
+  }
 }
