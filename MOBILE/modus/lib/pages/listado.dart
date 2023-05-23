@@ -30,31 +30,30 @@ class _ListadoState extends State<Listado> {
       drawer: Menu(),
       body: FutureBuilder<List<Producto>>(
         future: provider.listaProductos(),
-          builder: (BuildContext context, AsyncSnapshot<List<Producto>> snapshot) {
-            if(snapshot.hasData){
-              List<Producto> productos = snapshot.data!;
-              return ListView.separated(
-                itemCount: productos.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Producto producto = productos[index];
+        builder: (BuildContext context, AsyncSnapshot<List<Producto>> snapshot) {
+          if (snapshot.hasData) {
+            List<Producto> productos = snapshot.data!;
+            return ListView.builder(
+              itemCount: productos.length,
+              itemBuilder: (BuildContext context, int index) {
+                Producto producto = productos[index];
 
-                    return GestureDetector(
-
-                      onTap: () => Navigator.of(context)
-                        .pushNamed('detalle', arguments: producto),
-
-                      child: ElementoLista(producto: producto)
-                    );
-                  }, separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      thickness: 1,
-                    );
+                return Padding(
+                  //padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pushNamed('detalle', arguments: producto),
+                    child: ElementoLista(producto: producto),
+                  ),
+                );
               },
-              );
-            }else{
-              return Center(child: CircularProgressIndicator());
-            };
-          },),
+              itemExtent: 180,
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 }

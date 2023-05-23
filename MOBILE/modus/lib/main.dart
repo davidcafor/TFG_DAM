@@ -5,6 +5,7 @@ import 'package:modus/pages/detalle.dart';
 import 'package:modus/pages/home.dart';
 import 'package:modus/pages/listado.dart';
 import 'package:modus/providers/inventario_provider.dart';
+import 'package:modus/providers/ip_provider.dart';
 import 'package:modus/providers/producto_provider.dart';
 import 'package:modus/providers/tienda_provider.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class MyState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TiendaProvider()),
         ChangeNotifierProvider(create: (_) => InventarioProvider()),
+        //ChangeNotifierProvider(create: (_) => IpProvider())
       ],
       child: MyApp(),
     );

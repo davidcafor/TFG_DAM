@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modus/widgets/elemento_busqueda.dart';
 import 'package:provider/provider.dart';
 
 import '../models/producto.dart';
@@ -30,7 +31,6 @@ class _BusquedaState extends State<Busqueda> {
             padding: EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              //onSubmitted: (value) async {
               onChanged: (value) async {
                 setState(() {
                   _isLoading = true;
@@ -49,6 +49,10 @@ class _BusquedaState extends State<Busqueda> {
               },
               decoration: InputDecoration(
                 hintText: 'Buscar productos',
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
               ),
             ),
           ),
@@ -61,15 +65,10 @@ class _BusquedaState extends State<Busqueda> {
                         Divider(),
                     itemBuilder: (BuildContext context, int index) {
                       final product = _searchProducts[index];
-                      return ListTile(
-                        title: Text(product.nombre),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('ID: ${product.id}'),
-                            Text('Precio: \$${product.precio}€'),
-                          ],
-                        ),
+                      return Column(
+                        children: [
+                          ElementoBusqueda(producto: product),
+                        ],
                       );
                     },
                   ),
