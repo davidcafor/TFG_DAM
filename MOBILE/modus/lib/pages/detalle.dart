@@ -50,8 +50,9 @@ class _DetalleState extends State<Detalle> {
             child: Container(
               color: Colors.grey,
               child: ip != null && producto.imagen != null
-                  ? Image.network(
-                'http://$ip${producto.imagen}',
+                  ? FadeInImage.assetNetwork(
+                placeholder: 'assets/images/placeholder.png',
+                image: 'http://$ip${producto.imagen}',
                 fit: BoxFit.cover,
               )
                   : Image.asset(

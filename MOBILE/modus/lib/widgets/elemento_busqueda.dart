@@ -14,14 +14,9 @@ class ElementoBusqueda extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed('detalle', arguments: producto),
       child: ListTile(
         title: Text(producto.nombre),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('ID: ${producto.id}'),
-            Text('Precio: \$${producto.precio}€'),
-          ],
+        subtitle: Text(producto.descripcion),
+        trailing: Text('Precio: \$${producto.precio}€')
         ),
-      ),
-    );
+      );
   }
 }

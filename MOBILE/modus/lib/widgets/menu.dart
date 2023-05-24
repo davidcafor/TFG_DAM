@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
@@ -37,6 +38,14 @@ class Menu extends StatelessWidget {
             title: Text('Ajustes'),
             onTap: () {
               Navigator.pushNamed(context, 'ajustes');
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('Cerrar aplicación'),
+            onTap: () {
+              SystemNavigator.pop();
             },
           ),
         ],
