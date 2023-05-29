@@ -70,7 +70,7 @@ public class Inventario {
 
     @Override
     public String toString() {
-        return "Inventario{" + "id=" + id + ", producto=" + producto + ", tienda=" + tienda + ", cantidad=" + cantidad + ", ultima_actualizacion=" + ultima_actualizacion + '}';
+        return "ID: " + id + " - Producto: " + producto.nombre + " - Tienda: " + tienda.nombre + " - Cantidad: " + cantidad + " - Ult. Actualización: " + ultima_actualizacion;
     }
 }
 

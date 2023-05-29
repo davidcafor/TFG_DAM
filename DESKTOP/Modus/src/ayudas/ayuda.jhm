@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<map version="1.0">  
+        <mapID target="index" url="paginas/index.html" />
+        
+        <mapID target="archivo" url="paginas/archivo.html" />
+        <mapID target="configuracion" url="paginas/configuracion.html" />
+        
+        <mapID target="tienda" url="paginas/tienda.html" /> 
+        <mapID target="altatienda" url="paginas/altatienda.html" /> 
+        <mapID target="bajatienda" url="paginas/bajatienda.html" />
+        <mapID target="modificartienda" url="paginas/modificartienda.html" />
+        <mapID target="listartiendas" url="paginas/listartiendas.html" />
+        
+        <mapID target="producto" url="paginas/producto.html" /> 
+        <mapID target="altaproducto" url="paginas/altaproducto.html" /> 
+        <mapID target="bajaproducto" url="paginas/bajaproducto.html" />
+        <mapID target="modificarproducto" url="paginas/modificarproducto.html" />
+        <mapID target="listarproductos" url="paginas/listarproductos.html" />
+        
+        <mapID target="inventario" url="paginas/inventario.html" /> 
+        <mapID target="altainventario" url="paginas/altainventario.html" /> 
+        <mapID target="bajainventario" url="paginas/bajainventario.html" />
+        <mapID target="modificarinventario" url="paginas/modificarinventario.html" />
+        <mapID target="listarinventario" url="paginas/listarinventario.html" />
+        
+        <mapID target="ayuda" url="paginas/ayuda.html" /> 
+        <mapID target="ayudageneral" url="paginas/ayudageneral.html" />  
+</map>

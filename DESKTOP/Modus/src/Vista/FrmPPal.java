@@ -14,12 +14,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.Properties;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +32,10 @@ import javax.swing.table.DefaultTableModel;
  * @author David
  */
 public class FrmPPal extends javax.swing.JFrame {
+    
+    //Para pasar la ayuda a otra ventana
+    private HelpBroker browser;
+    HelpSet helpset;
 
     /**
      * Creates new form FrmPPal
@@ -42,6 +49,18 @@ public class FrmPPal extends javax.swing.JFrame {
         conectarBD();
         //CARGAR COMBO TIENDAS
         ControladorTienda.cargarComboTiendas(cmb_tiendas);
+        //AYUDA JAVAHELP
+        try {
+            URL helpURL = this.getClass().getResource("/ayudas/ayuda.hs");
+            //HelpSet helpset = new HelpSet(null, helpURL);
+            helpset = new HelpSet(null, helpURL);
+            //HelpBroker browser = helpset.createHelpBroker();
+            browser = helpset.createHelpBroker();
+            browser.enableHelpOnButton(menuAyuda, "index", helpset);
+
+        } catch (Exception e) {
+            System.out.println("Error en JAVAHELP " + e);
+        }
     }
 
     /**
@@ -52,6 +71,7 @@ public class FrmPPal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPrincipal = new javax.swing.JTable();
@@ -63,19 +83,23 @@ public class FrmPPal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        menuAyuda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MODUS");
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         tblPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -98,11 +122,31 @@ public class FrmPPal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblPrincipal);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 872;
+        gridBagConstraints.ipady = 359;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        getContentPane().add(jScrollPane1, gridBagConstraints);
+
         cmb_tiendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_tiendasActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 816;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(30, 10, 20, 10);
+        getContentPane().add(cmb_tiendas, gridBagConstraints);
 
         jMenu1.setText("Archivo");
 
@@ -142,6 +186,14 @@ public class FrmPPal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem4);
 
+        jMenuItem13.setText("Listado");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem13);
+
         jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Producto");
@@ -170,6 +222,14 @@ public class FrmPPal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem7);
 
+        jMenuItem12.setText("Listado");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem12);
+
         jMenuBar1.add(jMenu2);
 
         jMenu4.setText("Inventario");
@@ -183,42 +243,39 @@ public class FrmPPal extends javax.swing.JFrame {
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setText("Baja");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem9);
 
         jMenuItem10.setText("Modificacion");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem10);
+
+        jMenuItem14.setText("Listado");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem14);
 
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Ayuda");
 
-        jMenuItem11.setText("Ayuda General");
-        jMenu5.add(jMenuItem11);
+        menuAyuda.setText("Ayuda General");
+        jMenu5.add(menuAyuda);
 
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
-                    .addComponent(cmb_tiendas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(cmb_tiendas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
 
         setSize(new java.awt.Dimension(916, 567));
         setLocationRelativeTo(null);
@@ -277,6 +334,36 @@ public class FrmPPal extends javax.swing.JFrame {
         ventanaModificarProducto.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // BAJA INVENTARIO
+        BajaInventario ventanaBajaInventario = new BajaInventario(this, false);
+        ventanaBajaInventario.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // MODIFICAR INVENTARIO
+        ModificarInventario ventanaModificarInventario = new ModificarInventario(this, false);
+        ventanaModificarInventario.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // LISTADO PRODUCTO
+        ListadoProducto ventanaListadoProducto = new ListadoProducto(this, false);
+        ventanaListadoProducto.setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // LISTADO TIENDA
+        ListadoTiendas ventanaListadoTiendas = new ListadoTiendas(this, false);
+        ventanaListadoTiendas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        // LISTADO INVENTARIO
+        ListadoInventario ventanaListadoInventario = new ListadoInventario(this, false);
+        ventanaListadoInventario.setVisible(true);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,6 +407,7 @@ public class FrmPPal extends javax.swing.JFrame {
             Conexion.conectarBD(urlBD, puertoBD, usuarioBD, nombreBD, claveBD);
             if (Conexion.getCon() != null) {
                 System.out.println("Conexión establecida");
+                ControladorTienda.cargarComboTiendas(cmb_tiendas);
             } else {
                 JOptionPane.showMessageDialog(this, "Error de conexión. Asegúrate de tener bien configurada la conexion.");
                 System.out.println("Fallo en la conexion");
@@ -429,7 +517,9 @@ public class FrmPPal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -439,6 +529,7 @@ public class FrmPPal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuAyuda;
     private javax.swing.JTable tblPrincipal;
     // End of variables declaration//GEN-END:variables
 }

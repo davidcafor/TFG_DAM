@@ -55,6 +55,7 @@ public class ModificarTienda extends javax.swing.JDialog {
         txtTelefono = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Modificar Tienda");
 
         cmbTienda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +134,8 @@ public class ModificarTienda extends javax.swing.JDialog {
                 .addContainerGap(69, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(592, 479));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModTiendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModTiendaActionPerformed

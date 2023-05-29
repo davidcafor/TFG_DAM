@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE index PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN" "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+    
+   <indexitem text="Configuracion" target="configuracion"/>
+   
+   <indexitem text="Alta Tienda" target="altatienda"/>
+   <indexitem text="Baja Tienda" target="bajatienda"/>
+   <indexitem text="Modificar Tienda" target="modificartienda"/>
+   <indexitem text="Listar Tiendas" target="listartiendas"/>
+   
+   <indexitem text="Alta Producto" target="altaproducto"/>
+   <indexitem text="Baja Producto" target="bajaproducto"/>
+   <indexitem text="Modificar Producto" target="modificarproducto"/>
+   <indexitem text="Listar Productos" target="listarproductos"/>
+   
+   <indexitem text="Alta Inventario" target="altainventario"/>
+   <indexitem text="Baja Inventario" target="bajainventario"/>
+   <indexitem text="Modificar Inventario" target="modificarinventario"/>
+   <indexitem text="Listar Inventario" target="listarinventario"/>
+   
+   <indexitem text="Ayuda General" target="ayudageneral"/>
+    
+</index>

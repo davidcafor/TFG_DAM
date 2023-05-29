@@ -9,5 +9,5 @@ package Configuraciones;
  * @author David
  */
 public class ConfiguracionEjecucion {
-    public static boolean SISTEMA_EN_PRODUCCION=false;
+    public static boolean SISTEMA_EN_PRODUCCION=true;
 }

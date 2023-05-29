@@ -1,0 +1,41 @@
+LEEME TFG DAVID CARDEÑA
+-----------------------
+
+DATOS MAQUINA
+
+usuario maquina: administrador
+password maquina: abc123.
+
+
+PUESTA EN MARCHA DE LA MÁQUINA
+
+Abrir terminal y ejecutar en este orden los siguientes comandos:
+
+sudo su
+abc123.
+docker container start nocodb
+sudo /opt/lampp/manager-linux-x64.run
+
+
+SERÁ NECESARIO MODIFICAR PUERTO E IP EN NOCODB
+
+Dirigirse a http://ip:8090/dashboard/#/
+
+En la parte izquierda al lado de "modus" sale una flecha hacia abajo, desplegarla.
+
+Team & Settings -> Data Sources -> Modificar puerto e ip a los de la máquina actual.
+
+----------------------
+
+USUARIOS CREADOS A MAYORES
+
+App Desktop: desktop / abc123.
+App Mobile: mobile / abc123.
+Ftp: ftp / abc123.
+
+----------------------
+
+
+ACLARACIONES
+
+Si se desea usar MySQL, la última version soportada por noco es la 6.3.3.0

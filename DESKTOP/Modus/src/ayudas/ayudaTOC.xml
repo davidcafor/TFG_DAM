@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+
+<toc version="1.0">
+    
+  <tocitem text="Introducción" target="index"/>
+  
+  <tocitem text="Archivo" target="archivo">
+    <tocitem text="Configuracion" target="configuracion"/>
+  </tocitem>
+  
+  <tocitem text="Tienda" target="tienda">
+    <tocitem text="Alta Tienda" target="altatienda"/>
+    <tocitem text="Baja Tienda" target="bajatienda"/>
+    <tocitem text="Modificar Tienda" target="modificartienda"/>
+    <tocitem text="Listar Tiendas" target="listartiendas"/>
+  </tocitem>
+  
+  <tocitem text="Producto" target="producto">
+    <tocitem text="Alta Producto" target="altaproducto"/>
+    <tocitem text="Baja Producto" target="bajaproducto"/>
+    <tocitem text="Modificar Producto" target="modificarproducto"/>
+    <tocitem text="Listar Productos" target="listarproductos"/>
+  </tocitem>
+  
+  <tocitem text="Inventario" target="inventario">
+    <tocitem text="Alta Inventario" target="altainventario"/>
+    <tocitem text="Baja Inventario" target="bajainventario"/>
+    <tocitem text="Modificar Inventario" target="modificarinventario"/>
+    <tocitem text="Listar Inventario" target="listarinventario"/>
+  </tocitem>
+
+  <tocitem text="Ayuda" target="ayuda">
+    <tocitem text="Ayuda General" target="ayudageneral"/>
+  </tocitem>
+</toc>
+
+

@@ -49,7 +49,7 @@ class _ElementoListaState extends State<ElementoLista> {
               flex: 2,
               child: ip != null && widget.producto.imagen != null
                   ? FadeInImage.assetNetwork(
-                placeholder: 'assets/images/placeholder.png',
+                placeholder: 'assets/images/default.png',
                 image: 'http://$ip${widget.producto.imagen}',
                 fit: BoxFit.cover,
               )

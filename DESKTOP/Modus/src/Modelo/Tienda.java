@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import java.util.Objects;
+
 /**
  *
  * @author David
@@ -69,6 +71,25 @@ public class Tienda {
     @Override
     public String toString() {
         return nombre + " - " + direccion + " ( " + ciudad + " )";
+    }
+    
+    //Comparacion combos
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Tienda tienda = (Tienda) obj;
+        return id == tienda.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
     
     

@@ -5,6 +5,7 @@
 package Modelo;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -70,7 +71,26 @@ public class Producto {
 
     @Override
     public String toString() {
-        return nombre + " " + descripcion + " (" + precio + " €)";
+        return nombre + " - " + descripcion + " (" + precio + " €)";
+    }
+    
+    //Comparativa de combos
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Producto producto = (Producto) obj;
+        return id == producto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 
