@@ -4,10 +4,15 @@
  */
 package Vista;
 
+import Controlador.Conexion;
+import Controlador.ControladorInventario;
 import Controlador.ControladorTienda;
+import Modelo.Producto;
 import Modelo.Tienda;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -73,7 +78,7 @@ public class BajaTienda extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        if (cmbTiendas.getSelectedItem() != null) {
+        /*if (cmbTiendas.getSelectedItem() != null) {
             Tienda t = (Tienda) cmbTiendas.getSelectedItem();
             int elementosEliminados = ControladorTienda.eliminarTienda(t.getId());
             if (elementosEliminados > 0) {
@@ -83,7 +88,58 @@ public class BajaTienda extends javax.swing.JDialog {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Debes elegir un producto a eliminar");
+        }*/
+        if (cmbTiendas.getSelectedItem() != null) {
+            Tienda t = (Tienda) cmbTiendas.getSelectedItem();
+            try {
+                //COMPRUEBO SI HAY INVENTARIO ASOCIADO
+                boolean isRelated = ControladorInventario.existeTienda(t.getId());
+
+                if (isRelated) {
+                    int choice = JOptionPane.showConfirmDialog(this, "La tienda tiene inventario asociado. ¿Deseas eliminarla junto con el inventario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+
+                        Connection connection = Conexion.getCon();
+                        connection.setAutoCommit(false);
+
+                        try {
+
+                            //BORRO INVENTARIO ASOCIADO
+                            ControladorInventario.eliminarInventarioWhereTienda(t.getId());
+
+                            //BORRO TIENDA
+                            int elementosEliminados = ControladorTienda.eliminarTienda(t.getId());
+                            if (elementosEliminados > 0) {
+                                connection.commit();
+
+                                JOptionPane.showMessageDialog(this, "Tienda eliminado correctamente");
+                                ControladorTienda.cargarComboTiendas(cmbTiendas);
+                                ControladorTienda.cargarComboTiendas(((FrmPPal) getOwner()).getComboTiendas());
+                            }
+                        } catch (SQLException ex) {
+                            System.out.println("Error borrando tienda: " + ex);
+                            connection.rollback();
+                        } finally {
+                            // No cerrar conexion, sino no cargan combos/tablas
+                            //connection.close();
+                        }
+                    }
+                } else {
+                    int elementosEliminados = ControladorTienda.eliminarTienda(t.getId());
+                    if (elementosEliminados > 0) {
+                        JOptionPane.showMessageDialog(this, "Tienda eliminado correctamente");
+                        ControladorTienda.cargarComboTiendas(cmbTiendas);
+                        ControladorTienda.cargarComboTiendas(((FrmPPal) getOwner()).getComboTiendas());
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(BajaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debes elegir una tienda a eliminar");
         }
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**

@@ -47,7 +47,7 @@ public class ModificarInventario extends javax.swing.JDialog {
         txtTienda = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Alta Inventario");
+        setTitle("Modificar Inventario");
 
         jLabel1.setText("Producto:");
 

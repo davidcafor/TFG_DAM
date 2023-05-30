@@ -35,8 +35,8 @@
         
           <presentation default="true" displayviews="false" displayviewimages="true">
                 <name>MainWin</name>
-                <size width="750" height="850"/>		
-                <location x="300" y="200"/>			
+                <size width="1400" height="850"/>		
+                <location x="500" y="200"/>			
                 <title></title> 
                 <toolbar>	
                         <helpaction image="BackwardIco">javax.help.BackAction</helpaction>

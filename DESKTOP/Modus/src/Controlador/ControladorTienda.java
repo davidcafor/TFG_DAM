@@ -33,7 +33,7 @@ public class ControladorTienda {
             sentencia.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Tienda " + nombre + " añadida correctamente");
-            
+
         } catch (SQLException ex) {
             System.out.println("Error SQL alta tienda " + ex);
         } catch (Exception e) {
@@ -41,17 +41,13 @@ public class ControladorTienda {
         }
     }
 
-    public static int eliminarTienda(int id) {
+    public static int eliminarTienda(int id) throws SQLException {
         String consulta = "DELETE FROM tiendas WHERE id = ?";
         try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
             sentencia.setInt(1, id);
             return sentencia.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-                JOptionPane.showMessageDialog(null, "No se puede eliminar el producto ya que está asociado a una tienda.");
-            } catch (SQLException ex) {
-                System.out.println("Error SQL al eliminar tienda");
-            }
-        return 0;
+
+        } 
     }
 
     public static void actualizarTienda(int idTienda, String nombre, String direccion, String ciudad, String telefono) {

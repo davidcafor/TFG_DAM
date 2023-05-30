@@ -26,33 +26,32 @@ import javax.swing.JOptionPane;
  * @author David
  */
 public class ControladorInventario {
-    
+
     //SELECT cantidad FROM modus.inventario where id_producto = 4 and id_tienda = 1;
     public static int obtenerStock(int idProducto, int idTienda) {
-        
+
         int cantidad = 0;
         String consulta = "SELECT cantidad FROM inventario WHERE id_producto = ? AND id_tienda = ?";
-        
-        try (PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)){
-            
+
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+
             sentencia.setInt(1, idProducto);
             sentencia.setInt(2, idTienda);
-            
+
             ResultSet rs = sentencia.executeQuery();
             while (rs.next()) {
                 cantidad = rs.getInt(1);
             }
 
             return cantidad;
-            
+
         } catch (SQLException e) {
             System.out.println("Error obteniendoStock: " + e);
         }
-        
+
         return cantidad;
     }
-    
-    
+
     public static void insertarInventario(int idProducto, int idTienda, int cantidad) {
         //CONSULTA BASE DATOS de Inserccion de datos
         String consulta = "INSERT INTO inventario (id_producto, id_tienda, cantidad, ultima_actualizacion) VALUES (?,?,?,?)";
@@ -76,7 +75,7 @@ public class ControladorInventario {
             System.out.println("Error Genérico dando de alta un inventario: " + e);
         }
     }
-    
+
     public static void cargarComboInventario(JComboBox cmbInventario) {
 
         Statement sentencia;
@@ -102,7 +101,7 @@ public class ControladorInventario {
         }
 
     }
-    
+
     public static int eliminarInventario(int id) {
         String consulta = "DELETE FROM inventario WHERE id = ?";
         try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
@@ -113,11 +112,33 @@ public class ControladorInventario {
         }
         return 0;
     }
+
+    public static int eliminarInventarioWhereProduct(int id_producto) {
+        String consulta = "DELETE FROM inventario WHERE id_producto = ?";
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+            sentencia.setInt(1, id_producto);
+            return sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al eliminar inventario");
+        }
+        return 0;
+    }
     
+    public static int eliminarInventarioWhereTienda(int id_tienda) {
+        String consulta = "DELETE FROM inventario WHERE id_tienda = ?";
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+            sentencia.setInt(1, id_tienda);
+            return sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al eliminar inventario");
+        }
+        return 0;
+    }
+
     public static void actualizarInventario(int id, int id_producto, int id_tienda, int cantidad) {
         // Consulta SQL para la actualización de datos
         String consulta = "UPDATE inventario SET id_producto = ?, id_tienda = ?, cantidad = ?, ultima_actualizacion = ? WHERE id = ?";
-        
+
         //LocalDate fechaActual = LocalDate.now();
         Date ultimaActualizacion = Date.valueOf(LocalDate.now());
 
@@ -141,5 +162,47 @@ public class ControladorInventario {
             System.out.println("Error genérico al actualizar el inventario: " + e);
         }
     }
+
+    public static boolean existeProducto(int id_producto) {
+
+        String consulta = "SELECT COUNT(*) AS total FROM inventario WHERE id_producto = ?";
+
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+            sentencia.setInt(1, id_producto);
+            ResultSet rs = sentencia.executeQuery();
+
+            if (rs.next()) {
+                int totalCount = rs.getInt("total");
+                if (totalCount > 0) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al verificar la existencia del producto en el inventario: " + e);
+        }
+        return false;
+    }
     
+    public static boolean existeTienda(int id_tienda) {
+
+        String consulta = "SELECT COUNT(*) AS total FROM inventario WHERE id_tienda = ?";
+
+        try ( PreparedStatement sentencia = Conexion.getCon().prepareStatement(consulta)) {
+            sentencia.setInt(1, id_tienda);
+            ResultSet rs = sentencia.executeQuery();
+
+            if (rs.next()) {
+                int totalCount = rs.getInt("total");
+                if (totalCount > 0) {
+                    return true;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al verificar la existencia de la tienda en el inventario: " + e);
+        }
+        return false;
+    }
+
 }

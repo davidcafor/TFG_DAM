@@ -5,6 +5,8 @@
 package Vista;
 
 import Controlador.Conexion;
+import Controlador.ControladorInventario;
+import Controlador.ControladorProducto;
 import Modelo.Producto;
 import Modelo.Tienda;
 import java.sql.*;
@@ -25,7 +27,7 @@ public class BajaProducto extends javax.swing.JDialog {
     public BajaProducto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         Controlador.ControladorProducto.cargarComboProductos(cmbProductos);
     }
 
@@ -78,7 +80,7 @@ public class BajaProducto extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        if (cmbProductos.getSelectedItem() != null) {
+        /*if (cmbProductos.getSelectedItem() != null) {
             Producto p = (Producto) cmbProductos.getSelectedItem();
             try {
                 int elementosEliminados = Controlador.ControladorProducto.eliminarProducto(p.getId());
@@ -93,7 +95,54 @@ public class BajaProducto extends javax.swing.JDialog {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Debes elegir un producto a eliminar");
+        }*/
+        if (cmbProductos.getSelectedItem() != null) {
+            Producto p = (Producto) cmbProductos.getSelectedItem();
+            try {
+                //COMPRUEBO SI HAY INVENTARIO ASOCIADO
+                boolean isRelated = ControladorInventario.existeProducto(p.getId());
+
+                if (isRelated) {
+                    int choice = JOptionPane.showConfirmDialog(this, "El producto tiene inventario asociado. ¿Deseas eliminarlo junto con el inventario?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        
+                        Connection connection = Conexion.getCon();
+                        connection.setAutoCommit(false); 
+                        
+                        try {
+                            
+                            //BORRO INVENTARIO ASOCIADO
+                            ControladorInventario.eliminarInventarioWhereProduct(p.getId());
+
+                            //BORRO PRODUCTO
+                            int elementosEliminados = ControladorProducto.eliminarProducto(p.getId());
+                            if (elementosEliminados > 0) {
+                                connection.commit();
+                                
+                                JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
+                                Controlador.ControladorProducto.cargarComboProductos(cmbProductos);
+                            }
+                        } catch (SQLException ex) {
+                            connection.rollback();
+                        } finally {
+                            // No cerrar conexion, sino no cargan combos/tablas
+                            //connection.close();
+                        }
+                    }
+                } else {
+                    int elementosEliminados = Controlador.ControladorProducto.eliminarProducto(p.getId());
+                    if (elementosEliminados > 0) {
+                        JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
+                        Controlador.ControladorProducto.cargarComboProductos(cmbProductos);
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(BajaProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Debes elegir un producto a eliminar");
         }
+
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -138,11 +187,11 @@ public class BajaProducto extends javax.swing.JDialog {
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JComboBox<Producto> cmbProductos;
     // End of variables declaration//GEN-END:variables
+
 }
