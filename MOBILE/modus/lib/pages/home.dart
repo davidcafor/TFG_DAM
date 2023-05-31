@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:modus/widgets/menu.dart';
+
+import '../widgets/widgets.dart';
+
+
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -8,6 +11,8 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(68, 195, 235, 1),
+        elevation: 0,
         title: Text('Modus'),
       ),
       drawer: Menu(),
@@ -29,7 +34,7 @@ class Home extends StatelessWidget {
               left: MediaQuery.of(context).size.width * (2/3),
               right: 0,
               child: Container(
-                color: Color.fromRGBO(68, 195, 235, 0.8),
+                color: Color.fromRGBO(68, 195, 235, 1),
               ),
             ),
             // Logo en el centro

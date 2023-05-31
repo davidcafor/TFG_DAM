@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:modus/models/inventario.dart';
-import 'package:modus/models/inventario_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../models/tienda.dart';
+
+import '../models/models.dart';
 
 class InventarioProvider with ChangeNotifier {
 

@@ -20,6 +20,8 @@ class _AjustesState extends State<Ajustes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(68, 195, 235, 1),
+        elevation: 0,
         title: Text('Ajustes'),
       ),
       body: Padding(
@@ -124,7 +126,4 @@ class _AjustesState extends State<Ajustes> {
       });
     }
   }
-
-
-
 }

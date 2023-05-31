@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import '../models/inventario.dart';
-import '../models/producto.dart';
-import '../providers/inventario_provider.dart';
-import '../providers/producto_provider.dart';
+
 import 'package:intl/intl.dart';
+
+import '../models/models.dart';
+import '../providers/providers.dart';
 
 class Detalle extends StatefulWidget {
   const Detalle({Key? key}) : super(key: key);
@@ -40,6 +40,8 @@ class _DetalleState extends State<Detalle> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(68, 195, 235, 1),
+        elevation: 0,
         title: Text('Detalles del producto'),
       ),
       body: Column(
@@ -51,7 +53,7 @@ class _DetalleState extends State<Detalle> {
               color: Colors.grey,
               child: ip != null && producto.imagen != null
                   ? FadeInImage.assetNetwork(
-                placeholder: 'assets/images/placeholder.png',
+                placeholder: 'assets/images/default.png',
                 image: 'http://$ip${producto.imagen}',
                 fit: BoxFit.cover,
               )
@@ -173,8 +175,6 @@ class _DetalleState extends State<Detalle> {
                                   subtitle: Text(
                                         'Últ. actualización: $formattedDate',
                                       ),
-
-
                                   trailing: Text('Stock: ${inv.cantidad}'),
                                 );
                               },

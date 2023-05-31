@@ -1,5 +1,4 @@
-import 'package:modus/models/page_info.dart';
-import 'package:modus/models/tienda.dart';
+import 'models.dart';
 
 class TiendaResponse {
   List<Tienda> list;

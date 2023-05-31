@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:modus/widgets/elemento_busqueda.dart';
 import 'package:provider/provider.dart';
 
-import '../models/producto.dart';
-import '../providers/producto_provider.dart';
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../widgets/widgets.dart';
 
 class Busqueda extends StatefulWidget {
   const Busqueda({Key? key}) : super(key: key);
@@ -23,6 +23,8 @@ class _BusquedaState extends State<Busqueda> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(68, 195, 235, 1),
+        elevation: 0,
         title: Text('Búsqueda de productos'),
       ),
       body: Column(

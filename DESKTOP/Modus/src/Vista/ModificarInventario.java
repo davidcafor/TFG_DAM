@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
  * @author David
  */
 public class ModificarInventario extends javax.swing.JDialog {
+    
+    Inventario inv;
 
     /**
      * Creates new form AltaInventario
@@ -25,7 +27,16 @@ public class ModificarInventario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         ControladorInventario.cargarComboInventario(cmbInventario);
+    }
+    
+    public ModificarInventario(java.awt.Frame parent, boolean modal, Inventario inv) {
+        super(parent, modal);
+        initComponents();
+        this.inv = inv;
+        ControladorInventario.cargarComboInventario(cmbInventario);
         
+        //rellenarDatos();
+        //this.setTitle("Modificar libro: " + libro.getAutor() + " - " + libro.getTitulo());
     }
 
     /**

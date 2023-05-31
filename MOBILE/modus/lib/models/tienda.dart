@@ -1,4 +1,4 @@
-import 'inventario_list.dart';
+import 'models.dart';
 
 class Tienda {
   int id;

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/producto.dart';
-import '../providers/ip_provider.dart';
+import '../models/models.dart';
 
 class ElementoLista extends StatefulWidget {
 

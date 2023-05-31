@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:modus/pages/ajustes.dart';
-import 'package:modus/pages/busqueda.dart';
-import 'package:modus/pages/detalle.dart';
-import 'package:modus/pages/home.dart';
-import 'package:modus/pages/listado.dart';
-import 'package:modus/providers/inventario_provider.dart';
-import 'package:modus/providers/ip_provider.dart';
-import 'package:modus/providers/producto_provider.dart';
-import 'package:modus/providers/tienda_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
+import 'pages/pages.dart';
+import 'providers/providers.dart';
 
 void main() async{
   runApp(MyState());
@@ -25,8 +20,7 @@ class MyState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TiendaProvider()),
-        ChangeNotifierProvider(create: (_) => InventarioProvider()),
-        //ChangeNotifierProvider(create: (_) => IpProvider())
+        ChangeNotifierProvider(create: (_) => InventarioProvider())
       ],
       child: MyApp(),
     );
@@ -40,6 +34,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
@@ -52,7 +52,5 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: 'home'
     );
-
-
   }
 }

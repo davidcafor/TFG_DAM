@@ -1,13 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:modus/models/producto.dart';
-import 'package:modus/providers/producto_provider.dart';
-import 'package:modus/widgets/elemento_lista.dart';
-import 'package:modus/widgets/menu.dart';
 import 'package:provider/provider.dart';
+
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../widgets/widgets.dart';
 
 class Listado extends StatefulWidget {
   const Listado({Key? key}) : super(key: key);
@@ -25,6 +21,8 @@ class _ListadoState extends State<Listado> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(68, 195, 235, 1),
+        elevation: 0,
         title: Text('Listado Productos'),
       ),
       drawer: Menu(),
@@ -49,6 +47,10 @@ class _ListadoState extends State<Listado> {
               },
               itemExtent: 180,
             );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text("Falló la conexion"),
+            ); //revisa conexion
           } else {
             return Center(child: CircularProgressIndicator());
           }

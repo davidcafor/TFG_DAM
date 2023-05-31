@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/producto.dart';
+import '../models/models.dart';
 
 class ElementoBusqueda extends StatelessWidget {
 
@@ -15,7 +15,7 @@ class ElementoBusqueda extends StatelessWidget {
       child: ListTile(
         title: Text(producto.nombre),
         subtitle: Text(producto.descripcion),
-        trailing: Text('Precio: \$${producto.precio}€')
+        trailing: Text('Precio: ${producto.precio}€')
         ),
       );
   }

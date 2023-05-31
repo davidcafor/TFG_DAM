@@ -1,10 +1,11 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
-import 'package:modus/models/producto.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:modus/models/producto_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/models.dart';
+
+
 
 class ProductoProvider with ChangeNotifier {
 
@@ -56,8 +57,6 @@ class ProductoProvider with ChangeNotifier {
       'xc-token' : apiToken
     };
     var response = await http.get(url, headers: headers);
-
-    print(url);
 
     List<Producto> listaProductosQuery = ProductoResponse.fromJson(jsonDecode(response.body)).list;
 

@@ -1,5 +1,4 @@
-import 'page_info.dart';
-import 'producto.dart';
+import 'models.dart';
 
 class ProductoResponse {
   List<Producto> list;
