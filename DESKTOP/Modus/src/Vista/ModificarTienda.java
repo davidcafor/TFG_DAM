@@ -4,20 +4,13 @@
  */
 package Vista;
 
-import Controlador.ControladorProducto;
 import Controlador.ControladorTienda;
-import Modelo.Producto;
 import Modelo.Tienda;
-import java.awt.Image;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -149,13 +142,29 @@ public class ModificarTienda extends javax.swing.JDialog {
             sb.append("- Falta indicar el nombre\n");
             formularioOK = false;
         }
+        
+        if(txtNombre.getText().length()>45) {
+            sb.append("- Longitud de nombre demasiado grande");
+            formularioOK = false;
+        }
 
         if (txtDireccion.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la dirección\n");
             formularioOK = false;
         }
+        
+        if(txtDireccion.getText().length()>100) {
+            sb.append("- Longitud de la dirección demasiado grande");
+            formularioOK = false;
+        }
+        
         if (txtCiudad.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la ciudad\n");
+            formularioOK = false;
+        }
+        
+        if(txtCiudad.getText().length()>45) {
+            sb.append("- Longitud de la ciudad demasiado grande");
             formularioOK = false;
         }
         

@@ -10,6 +10,8 @@ import Controlador.ControladorTienda;
 import Modelo.Inventario;
 import Modelo.Producto;
 import Modelo.Tienda;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +23,14 @@ import java.sql.Statement;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 /**

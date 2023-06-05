@@ -173,9 +173,6 @@ public class ModificarProducto extends javax.swing.JDialog {
 
             ImageIcon preview = new ImageIcon(imgPath);
             lblImagen.setIcon(new ImageIcon(preview.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH)));
-
-            System.out.println(imgPath);
-            System.out.println(imgName);
         }
     }//GEN-LAST:event_btnImagenActionPerformed
 
@@ -190,11 +187,22 @@ public class ModificarProducto extends javax.swing.JDialog {
             sb.append("- Falta indicar el nombre\n");
             formularioOK = false;
         }
+        
+        if(txtNombre.getText().length()>45) {
+            sb.append("- Longitud de nombre demasiado grande");
+            formularioOK = false;
+        }
 
         if (txtDescripcion.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la descripción\n");
             formularioOK = false;
         }
+        
+        if(txtDescripcion.getText().length()>120) {
+            sb.append("- Longitud de la descripción demasiado grande");
+            formularioOK = false;
+        }
+        
         if (txtPrecio.getText().trim().isEmpty()) {
             sb.append("- Falta indicar el precio\n");
             formularioOK = false;
@@ -236,8 +244,6 @@ public class ModificarProducto extends javax.swing.JDialog {
 
             //CARGAR CAMPOS CON DATOS
             Producto p = (Producto) cmbProducto.getSelectedItem();
-            
-            System.out.println(p.getImagen());
             
             txtNombre.setText(p.getNombre());
             txtDescripcion.setText(p.getDescripcion());

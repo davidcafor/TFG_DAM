@@ -7,12 +7,11 @@ package Vista;
 import Controlador.Conexion;
 import Controlador.ControladorInventario;
 import Controlador.ControladorProducto;
+import Controlador.ControladorTienda;
 import Modelo.Producto;
-import Modelo.Tienda;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -80,22 +79,6 @@ public class BajaProducto extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        /*if (cmbProductos.getSelectedItem() != null) {
-            Producto p = (Producto) cmbProductos.getSelectedItem();
-            try {
-                int elementosEliminados = Controlador.ControladorProducto.eliminarProducto(p.getId());
-                if (elementosEliminados > 0) {
-                    JOptionPane.showMessageDialog(this, "Elemento eliminado correctamente");
-                    Controlador.ControladorProducto.cargarComboProductos(cmbProductos);
-                }
-            } catch (SQLIntegrityConstraintViolationException e) {
-                JOptionPane.showMessageDialog(this, "No se puede eliminar el producto ya que está asociado a una tienda.");
-            } catch (SQLException ex) {
-                Logger.getLogger(BajaProducto.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Debes elegir un producto a eliminar");
-        }*/
         if (cmbProductos.getSelectedItem() != null) {
             Producto p = (Producto) cmbProductos.getSelectedItem();
             try {
@@ -121,12 +104,14 @@ public class BajaProducto extends javax.swing.JDialog {
                                 
                                 JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
                                 Controlador.ControladorProducto.cargarComboProductos(cmbProductos);
+                                ControladorTienda.cargarComboTiendas(((FrmPPal)getOwner()).getComboTiendas());
                             }
                         } catch (SQLException ex) {
                             connection.rollback();
                         } finally {
                             // No cerrar conexion, sino no cargan combos/tablas
                             //connection.close();
+                            connection.setAutoCommit(true);
                         }
                     }
                 } else {

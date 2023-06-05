@@ -7,7 +7,6 @@ package Vista;
 import Controlador.Conexion;
 import Controlador.ControladorInventario;
 import Controlador.ControladorTienda;
-import Modelo.Producto;
 import Modelo.Tienda;
 import javax.swing.JOptionPane;
 import java.sql.*;
@@ -78,17 +77,6 @@ public class BajaTienda extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        /*if (cmbTiendas.getSelectedItem() != null) {
-            Tienda t = (Tienda) cmbTiendas.getSelectedItem();
-            int elementosEliminados = ControladorTienda.eliminarTienda(t.getId());
-            if (elementosEliminados > 0) {
-                JOptionPane.showMessageDialog(this, "Tienda eliminado correctamente");
-                ControladorTienda.cargarComboTiendas(cmbTiendas);
-                ControladorTienda.cargarComboTiendas(((FrmPPal)getOwner()).getComboTiendas());
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Debes elegir un producto a eliminar");
-        }*/
         if (cmbTiendas.getSelectedItem() != null) {
             Tienda t = (Tienda) cmbTiendas.getSelectedItem();
             try {
@@ -122,6 +110,7 @@ public class BajaTienda extends javax.swing.JDialog {
                         } finally {
                             // No cerrar conexion, sino no cargan combos/tablas
                             //connection.close();
+                            connection.setAutoCommit(true);
                         }
                     }
                 } else {

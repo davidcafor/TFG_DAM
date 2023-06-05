@@ -5,11 +5,8 @@
 package Vista;
 
 import Controlador.ControladorInventario;
-import Controlador.ControladorProducto;
 import Controlador.ControladorTienda;
 import Modelo.Inventario;
-import Modelo.Producto;
-import Modelo.Tienda;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,15 +26,6 @@ public class ModificarInventario extends javax.swing.JDialog {
         ControladorInventario.cargarComboInventario(cmbInventario);
     }
     
-    public ModificarInventario(java.awt.Frame parent, boolean modal, Inventario inv) {
-        super(parent, modal);
-        initComponents();
-        this.inv = inv;
-        ControladorInventario.cargarComboInventario(cmbInventario);
-        
-        //rellenarDatos();
-        //this.setTitle("Modificar libro: " + libro.getAutor() + " - " + libro.getTitulo());
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

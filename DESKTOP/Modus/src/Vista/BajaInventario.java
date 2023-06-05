@@ -7,9 +7,7 @@ package Vista;
 import Controlador.ControladorInventario;
 import Controlador.ControladorTienda;
 import Modelo.Inventario;
-import Modelo.Tienda;
 import javax.swing.JOptionPane;
-import java.sql.*;
 
 /**
  *

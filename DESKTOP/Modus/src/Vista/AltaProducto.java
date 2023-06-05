@@ -4,15 +4,8 @@
  */
 package Vista;
 
-import Controlador.Conexion;
 import Controlador.ControladorProducto;
 import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -22,9 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import javax.swing.ImageIcon;
-
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 
 /**
  *
@@ -166,9 +156,6 @@ public class AltaProducto extends javax.swing.JDialog {
             
             ImageIcon preview = new ImageIcon(imgPath);
             lblImagen.setIcon(new ImageIcon(preview.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH)));
-            
-            System.out.println(imgPath);
-            System.out.println(imgName);
         }
 
     }//GEN-LAST:event_btnImagenActionPerformed
@@ -185,11 +172,22 @@ public class AltaProducto extends javax.swing.JDialog {
             sb.append("- Falta indicar el nombre\n");
             formularioOK = false;
         }
+        
+        if(txtNombre.getText().length()>45) {
+            sb.append("- Longitud de nombre demasiado grande");
+            formularioOK = false;
+        }
 
         if (txtDescripcion.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la descripción\n");
             formularioOK = false;
         }
+        
+        if(txtDescripcion.getText().length()>120) {
+            sb.append("- Longitud de la descripción demasiado grande");
+            formularioOK = false;
+        }
+        
         if (txtPrecio.getText().trim().isEmpty()) {
             sb.append("- Falta indicar el precio\n");
             formularioOK = false;

@@ -4,14 +4,11 @@
  */
 package Vista;
 
-import java.awt.Frame;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
-import javax.swing.JFrame;
 
 /**
  *
@@ -140,10 +137,10 @@ public class Configuracion extends javax.swing.JDialog {
             System.out.println(filePath);
         }
 
-        File folder = new File(folderPath);
+        /*File folder = new File(folderPath);
         if (!folder.exists()) {
             folder.mkdirs();
-        }
+        }*/
 
         //Una vez creado archivo, escribo propiedades
         try ( OutputStream output = new FileOutputStream(filePath)) {

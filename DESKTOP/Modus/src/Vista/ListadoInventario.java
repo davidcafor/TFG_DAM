@@ -10,12 +10,9 @@ import Controlador.ControladorTienda;
 import Modelo.Inventario;
 import Modelo.Producto;
 import Modelo.Tienda;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
 import javax.swing.table.DefaultTableModel;
 
 /**

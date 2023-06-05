@@ -182,100 +182,47 @@ public class ControladorProducto {
         }
     }
 
-    /**
-     * METODO PARA DESCARGAR LA IMAGEN DEL FTP EN UN HILO
-     *
-     * @param nombreArchivo
-     * @param rutaDescarga
-     * @param ip
-     * @param puertoFTP
-     * @param usuarioFTP
-     * @param claveFTP
-     * @param carpetaFTP
-     * @param lblImagen
-     */
-    /*public static void descargarImgFTP(String nombreArchivo, String rutaDescarga, String ip, int puertoFTP, String usuarioFTP, String claveFTP, String carpetaFTP, JLabel lblImagen) throws FileNotFoundException, IOException {
-
+    public static void descargarImgFTP(String ip, String usuarioFTP, String claveFTP, String rutaImagenFTP, JLabel lblImagen) throws IOException {
         FTPClient ftpClient = new FTPClient();
-        ftpClient.connect(ip, puertoFTP);
-        ftpClient.login(usuarioFTP, claveFTP);
-        ftpClient.enterLocalPassiveMode();
-        ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-        String rutaArchivoRemoto = "/imagesApp/bermuda_cargo_pespuntes.jpg";
-        String rutaArchivoLocal = "Descargas";
-        System.out.println("Conectando a FTP: " + ip + puertoFTP + rutaArchivoRemoto);
-        File archivoDescargado = new File(rutaArchivoLocal);
-        //OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(archivoDescargado));
-        
 
-        Thread ftpThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    FileOutputStream fos = new FileOutputStream(archivoDescargado);
-                    boolean descargaExitosa = ftpClient.retrieveFile(rutaArchivoRemoto, fos);
-                    fos.close();
-                    //boolean descargaExitosa = ftpClient.retrieveFile(rutaArchivoRemoto, outputStream);
-                    //outputStream.close();
-
-                    if (descargaExitosa) {
-                        System.out.println("El archivo se ha descargado correctamente");
-
-                        // Mostrar la imagen en un JLabel
-                        //mostrarImagenEnJLabel(rutaArchivoLocal, lblImagen);
-                    } else {
-                        System.out.println("No se pudo descargar el archivo");
-                    }
-                } catch (IOException ex) {
-                    System.out.println("Error al conectar al servidor FTP: " + ex.getMessage());
-                    ex.printStackTrace();
-                } finally {
-                    try {
-                        if (ftpClient.isConnected()) {
-                            ftpClient.logout();
-                            ftpClient.disconnect();
-                        }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-        ftpThread.start();
-    }*/
-    
-    public static void descargarImgFTP(String ip, String usuarioFTP, String claveFTP, String rutaImagenFTP, JLabel lblImagen) throws IOException{
-        FTPClient ftpClient = new FTPClient();
-        
         String imgName = rutaImagenFTP.substring("/imagesApp/".length());
-        String rutaDescarga = "./src/Descargas/" + imgName;
+        String rutaDescarga;
+
+        if (Configuraciones.ConfiguracionEjecucion.SISTEMA_EN_PRODUCCION) {
+            rutaDescarga = "." + File.separator + imgName;
+        } else {
+            rutaDescarga = ("Descargas" + File.separator + imgName);
+        }
         
         String servFTP = ip;
         ftpClient.connect(servFTP);
         ftpClient.enterLocalPassiveMode();
         ftpClient.login(usuarioFTP, claveFTP);
-        //ftpClient.changeWorkingDirectory("Descargas");
         ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-        FileOutputStream fos = new FileOutputStream("./src/Descargas/" + imgName);
+        FileOutputStream fos = new FileOutputStream(rutaDescarga);
         Runnable run = () -> {
-            try{
+            try {
                 boolean descargaOK = ftpClient.retrieveFile(rutaImagenFTP, fos);
-                
-                if(descargaOK){
+
+                if (descargaOK) {
                     System.out.println("Imagen descargada correctamente del FTP");
                 } else {
                     System.out.println("Error bajando imagen del FTP");
                 }
-                
+
             } catch (IOException ex) {
                 System.out.println("Error retrieving file FTP");
-            } 
-            
+            }
+
             //mostrar imagen en label
             ImageIcon preview = new ImageIcon(rutaDescarga);
-            lblImagen.setIcon(new ImageIcon(preview.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH)));
-            
+
+            int width = lblImagen.getWidth();
+            int height = lblImagen.getHeight();
+            if (width != 0 && height != 0) {
+                lblImagen.setIcon(new ImageIcon(preview.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH)));
+            }
+
         };
         ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         Thread hilo = new Thread(run);

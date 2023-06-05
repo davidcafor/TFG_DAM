@@ -122,13 +122,29 @@ public class AltaTienda extends javax.swing.JDialog {
             sb.append("- Falta indicar el nombre\n");
             formularioOK = false;
         }
+        
+        if(txtNombre.getText().length()>45) {
+            sb.append("- Longitud de nombre demasiado grande");
+            formularioOK = false;
+        }
 
         if (txtDireccion.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la dirección\n");
             formularioOK = false;
         }
+        
+        if(txtDireccion.getText().length()>100) {
+            sb.append("- Longitud de la dirección demasiado grande");
+            formularioOK = false;
+        }
+        
         if (txtCiudad.getText().trim().isEmpty()) {
             sb.append("- Falta indicar la ciudad\n");
+            formularioOK = false;
+        }
+        
+        if(txtCiudad.getText().length()>45) {
+            sb.append("- Longitud de la ciudad demasiado grande");
             formularioOK = false;
         }
         

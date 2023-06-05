@@ -139,13 +139,6 @@ public class AltaInventario extends javax.swing.JDialog {
             formularioOK = false;
         }
         
-        /*
-        if (Integer.parseInt(txtCantidad.getText())<=0) {
-            sb.append("- El stock debe ser positivo\n");
-            formularioOK = false;
-        }
-        */
-        
         if (formularioOK == false) {
             JOptionPane.showMessageDialog(this, sb);
             return;
