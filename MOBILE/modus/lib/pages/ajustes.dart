@@ -111,6 +111,8 @@ class _AjustesState extends State<Ajustes> {
     try {
       var response = await http.get(url, headers: headers);
 
+      print(response.statusCode);
+
       if (response.statusCode == 200) {
         setState(() {
           _connectionStatus = 'Conectado';
